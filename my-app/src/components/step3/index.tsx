@@ -28,11 +28,11 @@ export default function Step3() {
         <div>
           <h2 className="font-bold text-lg">Personal Information</h2>
 
-          <p>First Name:{step1Data.firstname}</p>
+          <p>First Name: {step1Data.firstname}</p>
 
-          <p>Last Name:{step1Data.lastname}</p>
+          <p>Last Name: {step1Data.lastname}</p>
 
-          <p>Email:{step1Data.email}</p>
+          <p>Email: {step1Data.email}</p>
 
           <p>Phone: {step1Data.phone}</p>
         </div>
@@ -40,13 +40,14 @@ export default function Step3() {
         <div>
           <h2 className="font-bold text-lg">Address Information</h2>
 
-          <p>Street: {step2Data.street}</p>
-
-          <p>City: {step2Data.city}</p>
+          {/* <p>Street: {step2Data.street}</p> */}
+          <p> Country: {step2Data.country}</p>
 
           <p>State: {step2Data.state}</p>
 
-          <p>Zip Code:{step2Data.zipCode}</p>
+          <p>City: {step2Data.city}</p>
+
+          {/* <p>Zip Code:{step2Data.zipCode}</p> */}
         </div>
         <PaginationComponent
           onPrevious={() => navigate("/step2", { replace: true })}

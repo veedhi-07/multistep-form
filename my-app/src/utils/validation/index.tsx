@@ -19,10 +19,10 @@ export const infoSchema = Yup.object({
 });
 
 export const addressSchema = Yup.object({
-  street: Yup.string().required("Street name is Required"),
+  // street: Yup.string().required("Street name is Required"),
   city: Yup.string().required("City name is Required"),
   state: Yup.string().required("State name is Required"),
-  zipCode: Yup.string()
-    .matches(/^\d{6}$/, "Zip code must be 6 digits")
-    .required("Zip code is Required"),
+  // zipCode: Yup.string()
+  //   .matches(/^\d{6}$/, "Zip code must be 6 digits")
+  //   .required("Zip code is Required"),
 });

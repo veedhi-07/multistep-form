@@ -18,8 +18,9 @@ export interface FormValues {
   lastname?: string;
   email?: string;
   phone?: string;
-  street?: string;
+  // street?: string;
   city?: string;
+  country?: string;
   state?: string;
-  zipCode?: string;
+  // zipCode?: string;
 }

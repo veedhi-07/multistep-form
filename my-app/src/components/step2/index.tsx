@@ -7,16 +7,30 @@ import PaginationComponent from "../common/pagination";
 import AppLayout from "../../layout/applayout";
 import FormObserver from "../common/formobserver";
 import { useNavigate } from "react-router-dom";
+import {
+  CitySelect,
+  CountrySelect,
+  StateSelect,
+} from "react-country-state-city";
+import "react-country-state-city/dist/react-country-state-city.css";
+import { useState } from "react";
 
 export default function Step2() {
   const navigate = useNavigate();
   const initialValues: FormValues = {
-    street: "",
+    // street: "",
     city: "",
+    country: "",
     state: "",
-    zipCode: "",
+    // zipCode: "",
   };
+  const [countryId, setCountryId] = useState(0);
+  const [stateId, setStateId] = useState(0);
+  const [cityId, setCityId] = useState(0);
   const [step2Data, setStep2Data] = useLocalStorage("Step2Data", initialValues);
+  const isCountry = countryId == 0;
+  const isState = stateId == 0;
+
   return (
     <AppLayout title="Step 2: Address Information">
       <Formik<FormValues>
@@ -25,12 +39,19 @@ export default function Step2() {
           console.log(values);
           navigate("/step3");
         }}
-        validationSchema={addressSchema}
+        // validationSchema={addressSchema}
       >
-        {({ values, handleChange, handleBlur, errors, touched }) => (
+        {({
+          values,
+          handleChange,
+          handleBlur,
+          errors,
+          touched,
+          setFieldValue,
+        }) => (
           <Form>
             <FormObserver values={values} setStep2Data={setStep2Data} />
-            <FormField
+            {/* <FormField
               id="street"
               name="street"
               label="Street"
@@ -76,10 +97,68 @@ export default function Step2() {
               onBlur={handleBlur}
               error={errors.zipCode}
               touched={touched.zipCode}
-            />
+            /> */}
+            <>
+              <CountrySelect
+                placeHolder="Select Country"
+                inputClassName="..."
+                onChange={(country) => {
+                  // console.log(country);
+                  if ("id" in country) {
+                    setCountryId(country.id);
+                    const selectedCountry = country;
+                    setFieldValue("country", selectedCountry.name);
+                    setFieldValue("state", "");
+                    setFieldValue("city", "");
+
+                    setStateId(0);
+                    setCityId(0);
+                  }
+                }}
+              />
+              {!isCountry && (
+                <StateSelect
+                  placeHolder="Select State"
+                  // inputClassName="..."
+                  countryid={countryId}
+                  onChange={(state) => {
+                    if ("id" in state) {
+                      setStateId(state.id);
+                      setFieldValue("state", state.name);
+                      setFieldValue("city", "");
+                      setCityId(0);
+                    }
+                    // console.log(state);
+                    // if ("id" in state) setStateId(state.id);
+                  }}
+                />
+              )}
+              {!isState && (
+                <CitySelect
+                  placeHolder="Select City"
+                  // inputClassName="..."
+                  countryid={countryId}
+                  stateid={stateId}
+                  onChange={(city) => {
+                    console.log(city);
+                    if ("id" in city) {
+                      setCityId(city.id);
+                      setFieldValue("city", city.name);
+                    }
+                  }}
+                />
+              )}
+            </>
             <PaginationComponent
-              onNext={() => navigate("/step3", { replace: true })}
-              onPrevious={() => navigate("/")}
+              isLastStep={false}
+              // onNext={() => navigate("/step3", { replace: true })}
+              onNext={() => {
+                console.log("Next clicked!!!!!!!!!!!!!!!!");
+              }}
+              // onPrevious={() => navigate("/")}
+              onPrevious={() => {
+                console.log("Previous clickedddddd");
+              }}
             />
           </Form>
         )}
