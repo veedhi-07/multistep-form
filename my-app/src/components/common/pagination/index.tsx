@@ -1,25 +1,32 @@
-"use client";
+type Props = {
+  onPrevious?: () => void;
+  onNext?: () => void;
+  isLastStep?: boolean;
+};
 
-import { Pagination } from "flowbite-react";
-import { useState } from "react";
-
-function PaginationComponent() {
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const onPageChange = (page: number) => setCurrentPage(page);
-
+export default function PaginationComponent({
+  onPrevious,
+  onNext,
+  isLastStep,
+}: Props) {
   return (
-    <div className="flex overflow-y-auto sm:justify-center">
-      <Pagination
-        layout="table"
-        currentPage={currentPage}
-        itemsPerPage={10}
-        totalItems={2}
-        // totalPages={2}
-        onPageChange={onPageChange}
-        showIcons
-      />
+    <div className="flex justify-between mt-6">
+      <button
+        type="button"
+        onClick={onPrevious}
+        disabled={!onPrevious}
+        className="px-4 py-2 bg-blue-500 text-white rounded"
+      >
+        Previous
+      </button>
+
+      <button
+        type={isLastStep ? "button" : "submit"}
+        onClick={isLastStep ? onNext : undefined}
+        className="px-4 py-2 bg-blue-500 text-white rounded"
+      >
+        {isLastStep ? "Submit" : "Next"}
+      </button>
     </div>
   );
 }
-export default PaginationComponent;

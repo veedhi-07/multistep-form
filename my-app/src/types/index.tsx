@@ -14,12 +14,12 @@ export interface FormProps {
   className?: string;
 }
 export interface FormValues {
-  firstname: string;
-  lastname: string;
-  email: string;
-  phone: string;
-  street: string;
-  city: string;
-  state: string;
-  zipCode: string;
+  firstname?: string;
+  lastname?: string;
+  email?: string;
+  phone?: string;
+  street?: string;
+  city?: string;
+  state?: string;
+  zipCode?: string;
 }

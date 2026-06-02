@@ -1,30 +1,39 @@
 import { infoSchema } from "../../utils/validation";
 import FormField from "../common/formfield";
 import { Formik, Form } from "formik";
+import type { FormValues } from "../../types/index";
 import { useLocalStorage } from "../../utils/localStorage";
 import AppLayout from "../../layout/applayout";
 import PaginationComponent from "../common/pagination";
+import FormObserver from "../common/formobserver";
+import { replace, useNavigate } from "react-router-dom";
 
 export default function Step1() {
-  const initialValues = { firstname: "", lastname: "", email: "", phone: "" };
+  const navigate = useNavigate();
+  const initialValues: FormValues = {
+    firstname: "",
+    lastname: "",
+    email: "",
+    phone: "",
+  };
   const [step1Data, setStep1Data] = useLocalStorage("Step1Data", initialValues);
   return (
     <>
       <AppLayout title="Step:1 Personal Information">
-        <Formik
-          initialValues={initialValues}
+        <Formik<FormValues>
+          initialValues={step1Data}
           //
           onSubmit={(values) => {
-            console.log(values);
-            localStorage.removeItem("Step1Data");
+            // console.log(values);
+            navigate("/step2");
           }}
           validationSchema={infoSchema}
         >
           {({ values, handleChange, handleBlur, errors, touched }) => (
             <Form>
+              <FormObserver values={values} setStep1Data={setStep1Data} />
               <div>
                 <FormField
-                  className="rounded-lg!"
                   id="firstname"
                   name="firstname"
                   label="First Name"
@@ -69,10 +78,12 @@ export default function Step1() {
                 error={errors.phone}
                 touched={touched.phone}
               />
+              <PaginationComponent
+                onNext={() => navigate("/step2", { replace: true })}
+              />
             </Form>
           )}
         </Formik>
-        <PaginationComponent />
       </AppLayout>
     </>
   );
